@@ -1,0 +1,611 @@
+
+
+EXION OrderFlow
+Complete Project Description &amp; Technical Specification
+Client Demo ? Working MVP ? Production-ready Business Workflow
+
+Purpose of this document: This document is the baseline project specification to store before development begins. It records the requirements available from the supplied project description, UI screenshots, and the agreed development direction. Items not explicitly specified are marked as assumptions or future decisions.
+
+Document
+Details
+Project
+EXION OrderFlow
+Build approach
+Build the same project from zero
+Immediate milestone
+Beautiful functional client demo
+Database
+Supabase PostgreSQL
+Core roles
+Salesperson / Admin
+Core workflow
+Customer ? Quotation ? Approval ? Status ? Documents
+Primary stack
+Next.js + TypeScript + Tailwind CSS + Supabase
+Hosting direction
+Render
+Future integration
+Odoo integration can be added after core workflow
+
+Version 1.0 • Prepared before implementation
+
+1. Project Overview
+EXION OrderFlow is a business web application for managing customers, products, quotations, discounts, approvals, order status and delivery documentation. The system is intended to replace a manual sales quotation workflow with a controlled, role-based digital process.
+The project is being built from zero. The supplied screenshots are reference designs for the Salesperson experience and related quotation/delivery documents. The first objective is to show the client a polished demo with real server-side data persistence rather than a frontend-only mockup.
+1.1 Main business objective
+Allow salespeople to manage their customers and create quotations quickly.
+Allow salespeople to browse a controlled product catalog with fixed product information and prices.
+Store quotations and business data centrally in Supabase.
+Route quotations through an approval workflow.
+Restrict users according to their role and permissions.
+Generate professional quotation and delivery-note documents.
+Provide an admin control layer for products, inventory, users, settings and approvals.
+1.2 Core workflow
+Step
+Actor
+Action
+Expected result
+1
+Salesperson
+Login
+Salesperson dashboard opens with limited permissions
+2
+Salesperson
+Select/create customer
+Customer is available for quotation
+3
+Salesperson
+Select products
+Product and pricing data loaded from database
+4
+Salesperson
+Set quantity / discount
+Quotation totals calculated
+5
+Salesperson
+Save / submit quotation
+Quotation stored in Supabase
+6
+Admin
+Review quotation
+Admin sees pending quotation
+7
+Admin
+Approve / reject
+Server-side status is updated
+8
+Salesperson
+View quotation status
+Latest approval state is visible
+9
+Salesperson/Admin
+Generate document
+Quotation / Delivery Note can be produced
+
+Important: Approval must be a real database-backed operation. The demo should not depend on localStorage or fake frontend-only state.
+
+2. Source Requirements &amp; Reference Material
+The supplied requirement document states that the logged-in system should have Dashboard, Quotations, Customers, Products, Users and Settings areas in the admin-style navigation. It also defines salesperson permissions, customer fields, product examples, colour/stock expectations and quotation restrictions.
+Source boundary: The requirements below are transcribed/structured from the supplied project document and reference screens. Where a production rule is not explicitly defined, this specification does not invent a final business rule.
+
+2.1 Supplied customer fields
+Customer Name
+Customer Address
+Customer Mobile No.
+Customer Email ID
+Customer Account Department Phone No. and Email ID
+Customer VAT No.
+Customer CR No.
+2.2 Supplied product examples
+Item No.
+Description
+Unit B/W
+Unit Colour
+GM-23001
+9" DEEP PLATE
+6.50
+6.83
+GM-23002
+7" DEEP PLATE
+4.50
+4.73
+GM-23003
+6" DEEP PLATE
+4.00
+4.20
+GM-23004
+7.5" SERVING BOWL
+5.00
+5.25
+
+2.3 Supplied product colour list
+WHITE
+BLACK
+WHITE MARBLE
+CREAM DOT
+BLACK MARBLE
+GOLDEN MARBLE
+GRAY 1200
+The source document says to keep 100 quantity for each product/colour combination as an initial stock expectation.
+3. User Roles &amp; Permissions
+3.1 Salesperson role
+The source explicitly defines the salesman/salesperson as a limited-access user who can perform only sales-related activities.
+Permission / restriction
+Access
+Create quotations
+Allowed
+Create new customer
+Allowed
+View product catalog and prices
+Allowed
+View their own customers and old quotes
+Allowed
+Check order status
+Allowed
+Give discount up to 25%
+Allowed
+Discount above 25%
+Requires higher-authority approval
+Edit quotation until approval
+Allowed
+Edit quotation after approval
+Not allowed
+Edit product name, picture or prices
+Not allowed
+Edit/delete inventory and settings
+Not allowed
+Delete old approved quotation
+Not allowed
+Manage users
+Not allowed
+
+3.2 Admin role
+The supplied screens show an Admin Portal and the project discussions establish that the Admin is the higher-authority side responsible for approval and system management. The following admin capabilities are therefore the planned scope for the demo, while exact business rules can be refined with the client.
+Dashboard / management overview
+Customers
+Products
+Inventory / stock
+Quotations and quotation approvals
+Users and role management
+Settings
+Discount approval for discounts above the salesperson limit
+View operational status and business records
+Security rule: Hiding a button is not sufficient. Role permissions must also be enforced on the server/database layer.
+
+
+4. UI / UX Specification
+The reference UI uses a professional business-dashboard layout: dark left sidebar, clean light content area, blue primary actions, compact cards, status badges, tables and document-style quotation previews.
+4.1 Salesperson navigation
+Dashboard
+Customers
+New Quotation
+My Quotations
+Profile
+Admin Portal entry should not expose admin functionality to a salesperson beyond what the server permits.
+4.2 New Quotation flow
+Step 1 — Customer: search existing customer or create a new customer.
+Step 2 — Products: search/filter products, choose quantities, colours/variants and discounts.
+Review Cart: verify customer, products, quantities and totals.
+Quotation Review: review complete quotation information before generation/submission.
+Approval: submit to the admin approval workflow when required.
+4.3 Product catalog UI
+Search by product name, SKU or Arabic name where available.
+Category filters such as Dinner Plates, Bowls, Platters, Serving, Trays and Accessories.
+Product cards showing product name, Arabic name where available, SKU, price, stock state and available quantity.
+Variant/colour selector where applicable.
+Quantity selector and Add button.
+Discount field with salesperson policy enforcement.
+Low Stock / Out of Stock / Expected date indicators.
+4.4 Cart / quotation UI
+Customer summary.
+Cart items with product, SKU, quantity and unit price.
+Discount per item where permitted.
+Subtotal.
+Discount total.
+Net amount.
+VAT (15%) as shown in the reference quotation.
+Grand total.
+Remarks and optional attachments.
+4.5 Quotation document
+Company branding and quotation number.
+Quotation date and validity.
+Salesperson.
+Payment terms.
+Delivery terms.
+Bill-to customer details.
+Product image, description, SKU, quantity, unit price, discount and final amount.
+Subtotal, VAT and Grand Total.
+Terms &amp; Conditions.
+Prepared By / Approved By / Accepted By signature areas.
+Download PDF and WhatsApp sharing actions as shown in the reference.
+4.6 Delivery Note
+Linked quotation reference.
+Delivery Note number.
+Customer / delivery destination.
+Contact person.
+Products and quantities.
+Driver name.
+Remarks.
+Receiver, Driver and Company signature areas.
+Download PDF and WhatsApp sharing actions.
+5. Database &amp; Data Architecture
+Supabase PostgreSQL is the recommended database because the application has strongly related business records: customers, products, quotations, quotation items, users, approvals and delivery notes.
+5.1 Proposed core tables
+Table
+Purpose
+Key relationships
+profiles
+Application user profile and role
+Auth user
+customers
+Customer master data
+salesperson / quotations
+products
+Controlled product catalog
+quotation_items / variants
+product_variants
+Colour/variant-specific stock and SKU data
+products
+quotations
+Quotation header and totals
+customer / salesperson
+quotation_items
+Products inside a quotation
+quotation / product
+quotation_status_history
+Audit trail of workflow changes
+quotation / user
+discount_approvals
+Approval requests for discounts above policy
+quotation / approver
+delivery_notes
+Delivery document linked to quotation
+quotation
+delivery_note_items
+Products/quantities delivered
+delivery_note / product
+attachments
+Quotation/customer files
+quotation/customer
+settings
+Configurable business settings
+application
+
+5.2 Quotation fields
+Field
+Purpose
+id
+Unique quotation identifier
+quotation_number
+Human-readable quotation number
+customer_id
+Customer relationship
+salesperson_id
+User who created the quotation
+status
+Current workflow state
+subtotal
+Sum before discount/tax
+discount_total
+Total discount
+net_amount
+Amount after discount before VAT
+vat_rate
+Configured VAT rate; reference screen shows 15%
+vat_amount
+VAT amount
+grand_total
+Final quotation amount
+payment_terms
+Payment condition
+delivery_terms
+Delivery condition
+valid_until
+Quotation validity
+remarks
+Sales remarks
+created_at / updated_at
+Audit timestamps
+
+5.3 Quotation item fields
+quotation_id
+product_id / product_variant_id
+SKU
+product description snapshot
+quantity
+unit price snapshot
+discount percentage
+discount amount
+line amount
+Important data design: Quotation items should retain the price/description used at the time of quotation. Changing a product price later should not silently rewrite an old quotation.
+
+6. Workflow &amp; Status Model
+6.1 Suggested quotation statuses
+Status
+Meaning
+Draft
+Quotation is being prepared and can be edited by the salesperson
+Pending Approval
+Waiting for admin/higher-authority approval
+Approved
+Approved and locked against salesperson editing
+Rejected
+Rejected by approver; reason should be retained
+Sent
+Quotation has been sent to the customer
+Customer Accepted
+Customer has accepted the quotation
+Completed
+Business process completed
+Cancelled
+Quotation cancelled where authorized
+
+6.2 Discount approval logic
+The source requirement explicitly states that a salesperson may give up to 25% discount and that more than 25% requires approval from higher authority.
+If discount is 0–25%, the salesperson may continue according to normal quotation rules.
+If discount exceeds 25%, the system must require higher-authority approval.
+The quotation should enter a pending approval state rather than bypassing the approval process.
+The approver can approve or reject the request.
+The decision, approver and timestamp should be stored in the database.
+Once approved, salesperson editing must be blocked according to the stated rule.
+7. Security &amp; Server-Side Rules
+Authentication through Supabase Auth.
+Role stored in a controlled user profile/role structure.
+Supabase Row Level Security (RLS) for database-level access control.
+Server-side validation for quotation creation and approval.
+Salesperson can only access their own customers/quotes unless the business later authorizes shared access.
+Salesperson cannot update product master prices/names/images.
+Salesperson cannot modify inventory/settings.
+Approved quotations are protected from salesperson edits.
+Admin approval actions must be authorized server-side.
+All important status changes should be recorded in an audit/history table.
+Never expose service-role database credentials in browser code.
+8. Recommended Technology Stack
+Layer
+Recommended technology
+Reason
+Frontend
+Next.js + TypeScript
+Modern UI and server-side capabilities in one application
+UI
+Tailwind CSS + shadcn/ui
+Fast, consistent, professional business UI
+Backend
+Next.js Server Actions / Route Handlers
+Server-side business operations without a separate backend service initially
+Database
+Supabase PostgreSQL
+Relational business data and SQL reporting
+Authentication
+Supabase Auth
+Login and identity management
+Authorization
+Supabase RLS + server checks
+Strong role/data access control
+Storage
+Supabase Storage
+Attachments and product/customer files
+PDF
+Server-side React PDF solution
+Quotation and Delivery Note generation
+Hosting
+Render
+Current hosting direction discussed for the project
+Source control
+GitHub
+Versioning and deployment workflow
+Future ERP
+Odoo API/integration
+Future connection after core OrderFlow is stable
+
+Why this stack: It avoids unnecessary complexity for the demo while still providing a real database, authentication, server-side workflow and a path to production.
+
+
+9. Client Demo Scope
+The first client demonstration should prove that the core business workflow works end-to-end. It should be visually polished but also connected to real Supabase data.
+9.1 Demo scenario
+Login as Salesperson.
+Open Customers and show existing customers loaded from Supabase.
+Create a new customer and save it.
+Open New Quotation.
+Select the customer.
+Browse the product catalog.
+Add products and quantities.
+Apply a normal discount.
+Show calculated subtotal, discount, VAT and grand total.
+Submit the quotation.
+Open Admin in a second browser/session.
+Show the quotation under Pending Approval.
+Approve the quotation.
+Return to Salesperson and show the updated status.
+Open the approved quotation.
+Generate/view the quotation document.
+Create/open the Delivery Note.
+9.2 Demo success criteria
+No fake hard-coded approval flow.
+Data remains after refresh.
+Salesperson and Admin have visibly different access.
+Quotation created by Salesperson appears for Admin.
+Admin approval changes the database status.
+Approved quotation cannot be edited by Salesperson.
+Totals are calculated consistently.
+UI looks close to the supplied reference design and feels professional.
+10. Admin Portal Specification
+10.1 Admin dashboard
+The supplied admin dashboard reference shows a modern business dashboard with summary cards, charts, recent quotations, top-selling products, stock summary, recent customers and quick actions.
+Total Customers
+Total Quotations
+Pending Approvals
+Total Orders
+Total Revenue
+Sales Overview chart
+Recent Quotations
+Top Selling Products
+Stock Summary
+Recent Customers
+Quick Actions
+10.2 Admin management modules
+Module
+Primary purpose
+Customers
+View/manage customer master data
+Products
+Create/edit controlled product catalog
+Inventory
+Manage stock and availability
+Quotations
+Review all quotations and workflow states
+Discount Approvals
+Review discounts above salesperson authority
+Users
+Manage users and roles
+Settings
+Business/application configuration
+Activity Logs
+Track important system actions
+
+11. Business Documents
+11.1 Quotation PDF
+Company header / branding.
+Quotation reference and date.
+Validity date.
+Salesperson.
+Payment and delivery terms.
+Bill-to customer.
+Product table.
+Financial totals.
+Terms &amp; Conditions.
+Prepared / Approved / Accepted signature areas.
+Company footer with registration/tax information where configured.
+11.2 Delivery Note PDF
+Delivery Note reference.
+Quotation reference.
+Date.
+Salesperson.
+Deliver-to customer.
+Contact person.
+Product/SKU/quantity table.
+Driver name.
+Remarks.
+Receiver / Driver / Company signature areas.
+12. Data Integrity &amp; Business Rules
+Prices should come from the controlled product catalog.
+Salesperson cannot modify master product price.
+Stock availability should be checked before accepting a requested quantity.
+The reference screens show stock labels such as In Stock, Low Stock and Out of Stock, plus expected availability dates.
+Discount rules must be enforced consistently in both UI and server-side validation.
+VAT should be configurable, with 15% used in the supplied quotation reference.
+Quotation totals should be calculated server-side before final persistence/approval.
+Approved records should remain immutable to the salesperson.
+Important actions should have timestamps and responsible user IDs.
+13. Development Plan
+Phase
+Deliverables
+Priority
+Phase 1
+Project setup, UI shell, authentication, roles
+Critical
+Phase 2
+Supabase schema, RLS, seed data
+Critical
+Phase 3
+Salesperson customers + product catalog
+Critical
+Phase 4
+Quotation/cart/review workflow
+Critical
+Phase 5
+Admin quotation review + approval
+Critical
+Phase 6
+Quotation PDF + Delivery Note
+High
+Phase 7
+Admin dashboard and management screens
+High
+Phase 8
+Polish, validation, responsive UI, testing
+High
+Phase 9
+Deployment and client demo environment
+Critical
+Future
+WhatsApp automation, Odoo integration, advanced reports
+Later
+
+13.1 Recommended build order
+Do not build every screen independently first. Build one complete vertical workflow so that the client demo becomes functional early:
+Login ? Salesperson Dashboard ? Customer ? Product ? Quotation ? Supabase ? Admin Approval ? Status ? PDF
+14. Testing Checklist
+Area
+Test
+Authentication
+Salesperson and Admin can log in with correct roles
+Authorization
+Salesperson cannot open or modify admin-only operations
+Customer
+Create, search and retrieve customer
+Products
+Product details/prices load from database
+Stock
+Quantity cannot exceed permitted available stock
+Discount
+=25% works for salesperson; &gt;25% triggers approval
+Quotation
+Totals are correct and persisted
+Approval
+Admin approval changes server-side status
+Locking
+Approved quotation cannot be edited by salesperson
+Documents
+Quotation PDF renders correctly
+Delivery
+Delivery Note is linked to quotation
+Refresh
+Data remains after browser refresh
+Security
+No service-role secrets exposed client-side
+Audit
+Approval/status actions are recorded
+
+15. Open Items to Confirm With Client
+These items are not fully specified in the supplied material. They should be confirmed before production implementation.
+Exact admin approval rules for normal quotations versus discount approvals.
+Whether every quotation requires approval or only quotations above certain discount thresholds.
+Exact quotation status lifecycle and who can transition each status.
+Whether customers are visible only to the salesperson who created them or to all salespeople.
+Exact stock deduction point: quotation, approval, order confirmation or delivery.
+Whether customer acceptance is captured inside the system or only externally.
+Exact WhatsApp integration method and whether it is manual sharing or API automation.
+Exact company legal/footer information for generated documents.
+Final Odoo integration scope and timing.
+Email notification requirements.
+File attachment limits and allowed file types.
+Whether Arabic/English bilingual UI is required across the entire application.
+Whether audit logs must be visible to Admin.
+Do not block the client demo: Use clearly labelled configurable defaults for unresolved items, but do not silently turn assumptions into permanent business rules.
+
+16. Project Baseline / Definition of Done for Demo
+The project starts from a clean codebase.
+The UI follows the supplied OrderFlow reference style.
+Supabase is the source of truth for demo data.
+Authentication and role checks are functional.
+Salesperson can create a customer.
+Salesperson can create a quotation from products.
+Quotation is saved to Supabase.
+Admin can see pending quotation.
+Admin can approve/reject.
+Salesperson sees updated status.
+Approval locks the quotation against salesperson editing.
+Quotation totals and 15% VAT display correctly where applicable.
+Quotation document can be generated.
+Delivery Note can be generated from quotation.
+The demo can be run from a deployed URL.
+17. Change Log
+Version
+Date
+Description
+1.0
+2026-08-21
+Initial complete project baseline prepared before implementation
+
